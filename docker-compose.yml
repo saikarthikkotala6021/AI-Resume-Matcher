@@ -1,0 +1,23 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_AI_GOOGLE_GENAI_API_KEY=${GEMINI_API_KEY}
+      - SPRING_AI_GOOGLE_GENAI_PROJECT_ID=${GEMINI_PROJECT_ID}
+    networks:
+      - ai-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80" # Maps container port 80 to host 5173
+    networks:
+      - ai-network
+    depends_on:
+      - backend
+
+networks:
+  ai-network:
+    driver: bridge
